@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Acko AI Insurance Platform</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h1>🚀 Acko AI Insurance Platform</h1>
+
+        <p>
+            AI Insurance Assistant + Premium Predictor
+        </p>
+
+    </div>
+
+    <div class="container">
+
+        
+
+        <!-- CHATBOT -->
+
+        <div class="card">
+
+            <h2>💬 Insurance Assistant</h2>
+
+            <div id="chat-box"></div>
+
+            <div class="chat-input">
+
+                <input
+                    type="text"
+                    id="question"
+                    placeholder="Ask anything about insurance..."
+                >
+
+                <button onclick="sendQuestion()">
+                    Ask
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- PREMIUM PREDICTOR -->
+
+        <div class="card">
+
+            <h2>📊 Premium Predictor</h2>
+
+            <label>Select Insurance Type</label>
+
+            <select
+                id="insuranceType"
+                onchange="toggleForm()"
+            >
+
+                <option value="">
+                    Select Insurance
+                </option>
+
+                <option value="bike">
+                    🏍 Bike Insurance
+                </option>
+
+                <option value="car">
+                    🚗 Car Insurance
+                </option>
+
+                <option value="health">
+                    🏥 Health Insurance
+                </option>
+
+            </select>
+
+            <!-- BIKE FORM -->
+
+            <div
+                id="bike-form"
+                style="display:none;"
+            >
+
+                <h3>🏍 Bike Premium Prediction</h3>
+
+                <label>Customer Age</label>
+
+                <select id="bike_customer_age">
+                    <option value="20">18-25 Years</option>
+                    <option value="30">26-35 Years</option>
+                    <option value="45">36-50 Years</option>
+                    <option value="60">50+ Years</option>
+                </select>
+
+                <label>City Risk Score</label>
+
+                <select id="bike_city_risk_score">
+                    <option value="2">Tier 3 City</option>
+                    <option value="5">Tier 2 City</option>
+                    <option value="8">Metro City</option>
+                </select>
+
+                <label>Vehicle Age</label>
+
+                <select id="bike_vehicle_age">
+                    <option value="1">Less than 1 Year</option>
+                    <option value="3">1-3 Years</option>
+                    <option value="5">3-5 Years</option>
+                    <option value="8">5+ Years</option>
+                </select>
+
+                <label>Previous Claims</label>
+
+                <select id="bike_previous_claims">
+                    <option value="0">No Claims</option>
+                    <option value="1">1 Claim</option>
+                    <option value="2">2 Claims</option>
+                    <option value="3">3+ Claims</option>
+                </select>
+
+                <label>NCB</label>
+
+                <select id="bike_ncb">
+                    <option value="0">0%</option>
+                    <option value="20">20%</option>
+                    <option value="35">35%</option>
+                    <option value="50">50%</option>
+                </select>
+
+                <label>Rider Experience</label>
+
+                <select id="bike_experience">
+                    <option value="1">0-1 Year</option>
+                    <option value="3">1-3 Years</option>
+                    <option value="5">3-5 Years</option>
+                    <option value="10">5+ Years</option>
+                </select>
+
+                <label>IDV</label>
+
+                <select id="bike_idv">
+                    <option value="50000">₹50,000</option>
+                    <option value="100000">₹1 Lakh</option>
+                    <option value="200000">₹2 Lakh</option>
+                    <option value="500000">₹5 Lakh</option>
+                </select>
+
+                <button onclick="predictBikePremium()">
+                    Predict Bike Premium
+                </button>
+
+                <div id="bike-result"></div>
+
+            </div>
+
+            <!-- CAR FORM -->
+
+            <div
+                id="car-form"
+                style="display:none;"
+            >
+
+                <h3>🚗 Car Premium Prediction</h3>
+
+                <label>Customer Age</label>
+
+                <select id="car_customer_age">
+                    <option value="20">18-25 Years</option>
+                    <option value="30">26-35 Years</option>
+                    <option value="45">36-50 Years</option>
+                    <option value="60">50+ Years</option>
+                </select>
+
+                <label>City Risk Score</label>
+
+                <select id="car_city_risk_score">
+                    <option value="2">Tier 3 City</option>
+                    <option value="5">Tier 2 City</option>
+                    <option value="8">Metro City</option>
+                </select>
+
+                <label>Vehicle Age</label>
+
+                <select id="car_vehicle_age">
+                    <option value="1">Less than 1 Year</option>
+                    <option value="3">1-3 Years</option>
+                    <option value="5">3-5 Years</option>
+                    <option value="8">5+ Years</option>
+                </select>
+
+                <label>Previous Claims</label>
+
+                <select id="car_previous_claims">
+                    <option value="0">No Claims</option>
+                    <option value="1">1 Claim</option>
+                    <option value="2">2 Claims</option>
+                    <option value="3">3+ Claims</option>
+                </select>
+
+                <label>NCB</label>
+
+                <select id="car_ncb">
+                    <option value="0">0%</option>
+                    <option value="20">20%</option>
+                    <option value="35">35%</option>
+                    <option value="50">50%</option>
+                </select>
+
+                <label>Engine Protection</label>
+
+                <select id="car_engine">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+
+                <label>IDV</label>
+
+                <select id="car_idv">
+                    <option value="300000">₹3 Lakh</option>
+                    <option value="500000">₹5 Lakh</option>
+                    <option value="1000000">₹10 Lakh</option>
+                    <option value="1500000">₹15 Lakh</option>
+                </select>
+
+                <button onclick="predictCarPremium()">
+                    Predict Car Premium
+                </button>
+
+                <div id="car-result"></div>
+
+            </div>
+
+            <!-- HEALTH FORM -->
+
+            <div
+                id="health-form"
+                style="display:none;"
+            >
+
+                <h3>🏥 Health Premium Prediction</h3>
+
+                <label>Age</label>
+
+                <select id="health_age">
+                    <option value="25">18-30 Years</option>
+                    <option value="40">31-45 Years</option>
+                    <option value="55">46-60 Years</option>
+                    <option value="65">60+ Years</option>
+                </select>
+
+                <label>Gender</label>
+
+                <select id="health_gender">
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+
+                <label>Members Covered</label>
+
+                <select id="health_members">
+                    <option value="1">1 Member</option>
+                    <option value="2">2 Members</option>
+                    <option value="4">4 Members</option>
+                    <option value="6">6 Members</option>
+                </select>
+
+                <label>City Tier</label>
+
+                <select id="health_city_tier">
+                    <option value="0">Tier 1</option>
+                    <option value="1">Tier 2</option>
+                    <option value="2">Tier 3</option>
+                </select>
+
+                <label>BMI Category</label>
+
+                <select id="health_bmi">
+                    <option value="0">Normal</option>
+                    <option value="1">Overweight</option>
+                    <option value="2">Obese</option>
+                </select>
+
+                <label>Smoking</label>
+
+                <select id="health_smoke">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+
+                <label>Pre Existing Disease</label>
+
+                <select id="health_pre_existing">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+
+                <label>NCB Years</label>
+
+                <select id="health_ncb">
+                    <option value="0">0 Years</option>
+                    <option value="1">1 Year</option>
+                    <option value="3">3 Years</option>
+                    <option value="5">5+ Years</option>
+                </select>
+
+                <label>Sum Insured</label>
+
+                <select id="health_sum_insured">
+                    <option value="300000">₹3 Lakh</option>
+                    <option value="500000">₹5 Lakh</option>
+                    <option value="1000000">₹10 Lakh</option>
+                    <option value="2000000">₹20 Lakh</option>
+                </select>
+
+                <label>Deductible</label>
+
+                <select id="health_deductible">
+                    <option value="0">No Deductible</option>
+                    <option value="10000">₹10,000</option>
+                    <option value="25000">₹25,000</option>
+                    <option value="50000">₹50,000</option>
+                </select>
+
+                <label>Number of Add-ons</label>
+
+                <select id="health_addons">
+                    <option value="0">0 Add-ons</option>
+                    <option value="1">1 Add-on</option>
+                    <option value="2">2 Add-ons</option>
+                    <option value="3">3 Add-ons</option>
+                </select>
+
+                <label>Maternity Cover</label>
+
+                <select id="health_maternity">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+
+                <label>OPD Cover</label>
+
+                <select id="health_opd">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+
+                <label>Policy Tenure</label>
+
+                <select id="health_tenure">
+                    <option value="1">1 Year</option>
+                    <option value="2">2 Years</option>
+                    <option value="3">3 Years</option>
+                </select>
+
+                <button onclick="predictHealthPremium()">
+                    Predict Health Premium
+                </button>
+
+                <div id="health-result"></div>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+    <h2>📸 AI Claim Submission</h2>
+
+    <label>Vehicle Type</label>
+
+    <select id="claim_vehicle_type">
+
+        <option value="bike">🏍 Bike</option>
+
+        <option value="car">🚗 Car</option>
+
+    </select>
+
+    <label>Damage Image</label>
+
+    <input
+        type="file"
+        id="damage_image"
+        accept="image/*"
+    >
+
+    <label>Vehicle Age</label>
+
+    <input
+        type="number"
+        id="claim_vehicle_age"
+        value="3"
+    >
+
+    <label>Vehicle IDV</label>
+
+    <input
+        type="number"
+        id="claim_idv"
+        value="100000"
+    >
+
+    <label>City Risk Score</label>
+
+    <input
+        type="number"
+        id="claim_city_risk"
+        value="5"
+    >
+
+    <label>Previous Claims</label>
+
+    <input
+        type="number"
+        id="claim_previous_claims"
+        value="1"
+    >
+
+    <label>Policy Age (Months)</label>
+
+    <input
+        type="number"
+        id="claim_policy_age"
+        value="12"
+    >
+
+    <label>Parts Affected</label>
+
+    <input
+        type="number"
+        id="claim_parts"
+        value="2"
+    >
+
+    <button onclick="submitClaim()">
+        Submit Claim
+    </button>
+
+    <div id="claim-result"></div>
+
+</div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
