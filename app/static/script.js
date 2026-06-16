@@ -467,6 +467,20 @@ async function submitClaim() {
         const data =
             await response.json();
 
+        console.log(
+            "Claim response:",
+            data
+        );
+
+        if(!response.ok){
+
+            alert(
+                data.error || "Claim API Server Error"
+            );
+
+            return;
+        }
+
         document.getElementById(
             "claim-result"
         ).innerHTML = `
@@ -506,7 +520,8 @@ async function submitClaim() {
         console.log(error);
 
         alert(
-            "Claim API Error"
+            "Claim API Error. Check browser console and Flask terminal."
         );
     }
+
 }

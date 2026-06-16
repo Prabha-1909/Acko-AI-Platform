@@ -23,6 +23,7 @@ sys.path.append(
         )
     )
 )
+from storage.s3_uploader import upload_file_to_s3
 
 from rag_chatbot.rag_pipeline import ask_question
 
@@ -206,6 +207,11 @@ def submit_claim():
 
     image.save(image_path)
 
+    image_s3_key = upload_file_to_s3(
+    image_path,
+    folder_name="claims/damage_images"
+)
+
     vision_result = analyze_damage_image(image_path)
 
     damage_severity_score = float(
@@ -283,7 +289,7 @@ def submit_claim():
         predicted_amount=prediction["predicted_claim_amount"],
         approval_probability=prediction["approval_probability"] / 100,
         status=claim_status,
-        image_s3_key=image_path,
+        image_s3_key=image_s3_key,
         form_s3_key=None
     )
     

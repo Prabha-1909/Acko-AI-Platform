@@ -23,18 +23,39 @@ csv_path = os.path.join(
 
 df = pd.read_csv(csv_path)
 
-X = df[
-    [
-        "customer_age",
-        "city_risk_score",
-        "vehicle_age_years",
-        "engine_cc",
-        "idv",
-        "ncb_percent",
-        "claim_history_count",
-        "num_addons"
+df = pd.get_dummies(
+    df,
+    columns=[
+        "segment",
+        "fuel_type",
+        "policy_type",
+        "usage_type"
     ]
+)
+
+feature_columns = [
+    "customer_age",
+    "city_risk_score",
+    "city_tier",
+    "vehicle_age_years",
+    "engine_cc",
+    "idv",
+    "ncb_percent",
+    "claim_history_count",
+    "num_addons"
 ]
+
+encoded_columns = [
+    col for col in df.columns
+    if col.startswith("segment_")
+    or col.startswith("fuel_type_")
+    or col.startswith("policy_type_")
+    or col.startswith("usage_type_")
+]
+
+feature_columns = feature_columns + encoded_columns
+
+X = df[feature_columns]
 
 y = df["annual_premium"]
 
@@ -46,8 +67,12 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 model = RandomForestRegressor(
-    n_estimators=200,
-    random_state=42
+    n_estimators=500,
+    max_depth=20,
+    min_samples_split=5,
+    min_samples_leaf=2,
+    random_state=42,
+    n_jobs=-1
 )
 
 model.fit(
@@ -78,12 +103,17 @@ print("R2 Score :", round(r2, 4))
 print("RMSE     :", round(rmse, 2))
 print("MAE      :", round(mae, 2))
 
+model_data = {
+    "model": model,
+    "feature_columns": feature_columns
+}
+
 model_path = os.path.join(
     BASE_DIR,
     "bike_premium_model.pkl"
 )
 
 with open(model_path, "wb") as f:
-    pickle.dump(model, f)
+    pickle.dump(model_data, f)
 
 print("Bike Premium Model Saved")

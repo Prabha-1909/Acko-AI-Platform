@@ -1,8 +1,21 @@
 import pickle
-import numpy as np
+import pandas as pd
+import os
 
-with open("ml_model/car_premium_model.pkl", "rb") as f:
-    model = pickle.load(f)
+BASE_DIR = os.path.dirname(__file__)
+
+model_path = os.path.join(
+    BASE_DIR,
+    "car_premium_model.pkl"
+)
+
+with open(model_path, "rb") as f:
+    model_data = pickle.load(f)
+
+model = model_data["model"]
+
+feature_columns = model_data["feature_columns"]
+
 
 def predict_car_premium(
     customer_age,
@@ -15,20 +28,40 @@ def predict_car_premium(
     num_addons
 ):
 
-    features = np.array([
-        [
-            customer_age,
-            city_risk_score,
-            vehicle_age_years,
-            engine_cc,
-            idv,
-            ncb_percent,
-            claim_history_count,
-            num_addons
-        ]
-    ])
+    input_data = {
+        "customer_age": customer_age,
+        "city_risk_score": city_risk_score,
+        "city_tier": 1,
+        "vehicle_age_years": vehicle_age_years,
+        "engine_cc": engine_cc,
+        "idv": idv,
+        "ncb_percent": ncb_percent,
+        "claim_history_count": claim_history_count,
+        "num_addons": num_addons,
 
-    premium = model.predict(features)[0]
+        "segment_Hatchback": 1,
+        "segment_Sedan": 0,
+        "segment_SUV": 0,
+        "segment_MUV": 0,
+
+        "fuel_type_Petrol": 1,
+        "fuel_type_Diesel": 0,
+        "fuel_type_Electric": 0,
+
+        "policy_type_Comprehensive": 1,
+        "policy_type_Third Party": 0
+    }
+
+    input_df = pd.DataFrame(
+        [input_data]
+    )
+
+    input_df = input_df.reindex(
+        columns=feature_columns,
+        fill_value=0
+    )
+
+    premium = model.predict(input_df)[0]
 
     return {
         "predicted_premium": round(float(premium), 2)
