@@ -9,3 +9,7 @@ __pycache__/
 config.py
 
 *.pkl
+
+storage/aws_config.py
+storage/test_rds.py
+__pycache__/
