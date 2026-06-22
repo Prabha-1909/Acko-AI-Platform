@@ -1,31 +1,17 @@
 from manager_ai.manager_assistant import ask_manager
 
-print(
-    ask_manager(
-        "How many car claims were filed?"
-    )
-)
+questions = [
+    "How many claims are submitted?",
+    "How many bike claims are submitted?",
+    "How many car claims are submitted?",
+    "What is the average payout for bike claims?",
+    "What is the average payout for car claims?",
+    "How many quotations did we generate?",
+    "What is the average premium?",
+    "What are the top chatbot questions?",
+    "Show me recent claims"
+]
 
-print(
-    ask_manager(
-        "What is the average payout for bike claims?"
-    )
-)
-
-print(
-    ask_manager(
-        "Which city has most claims?"
-    )
-)
-
-print(
-    ask_manager(
-        "What is the claim approval rate?"
-    )
-)
-
-print(
-    ask_manager(
-        "Which damage type has highest average claim?"
-    )
-)
+for q in questions:
+    print("\nQ:", q)
+    print("A:", ask_manager(q))
