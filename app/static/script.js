@@ -89,9 +89,14 @@ try {
         "</div>";
 
     chatBox.innerHTML +=
-        "<div class='bot-msg'>" +
-        data.answer +
-        "</div>";
+    "<div class='bot-msg'>" +
+    (data.answer || data.response || data.error || "No response received") +
+    "</div>";
+
+    const data =
+    await response.json();
+
+    console.log("Ask response:", data);
 
     document.getElementById(
         "question"
