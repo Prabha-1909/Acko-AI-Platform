@@ -22,7 +22,7 @@ The platform simulates real-world insurance workflows including quote generation
 
 ## Business Impact
 
-*Faster customer support through AI-powered policy assistance.
+* Faster customer support through AI-powered policy assistance.
 * Instant premium quotations without agent intervention.
 * Automated claim assessment and risk evaluation.
 * Reduced operational workload for insurance teams.
@@ -46,7 +46,7 @@ The Acko Insurance AI Platform consists of five integrated modules connected thr
 
 * Customer/User → Flask Web Application
 
-* Flask Application → RAG Chatbot (LangChain + ChromaDB + Gemini)
+* Flask Application → RAG Chatbot (LangChain + ChromaDB + Hugginf Face Embeddings + Groq API + Llama)
 
 * Flask Application → Premium Prediction Models (Scikit-learn)
 
@@ -67,13 +67,16 @@ The Acko Insurance AI Platform consists of five integrated modules connected thr
 * AWS S3 stores uploaded claim images and claim documents.
 * ChromaDB stores vector embeddings generated from insurance policy documents.
 
+
 ### AI Components
 
-* LangChain powers the Retrieval-Augmented Generation (RAG) workflow.
-* Google Gemini generates contextual responses from retrieved policy information.
-* Gemini Vision analyzes uploaded vehicle damage images.
-* Scikit-learn models predict insurance premiums, claim amounts, and claim approval probabilities.
-* SHAP provides explainability for premium prediction models.
+- LangChain powers the Retrieval-Augmented Generation (RAG) workflow.
+- Hugging Face Sentence Transformers generate vector embeddings.
+- ChromaDB stores document embeddings and performs semantic similarity search.
+- Groq API provides access to the Llama model for generating context-aware responses.
+- Google Gemini Vision analyzes uploaded vehicle damage images.
+- Scikit-learn models predict insurance premiums, claim amounts, and claim approval probabilities.
+- SHAP provides explainability for premium prediction models.
 
 ### Data Flow
 
@@ -161,7 +164,7 @@ Features:
 | Dashboard Framework    | Streamlit             |
 | Machine Learning       | Scikit-learn          |
 | Data Processing        | Pandas, NumPy         |
-| Generative AI          | Google Gemini API     |
+| Generative AI          | Groq API, Llama-3.3-70B-Versatile, Google Gemini Vision     |
 | Computer Vision        | Gemini Vision API     |
 | RAG Framework          | LangChain             |
 | Workflow Orchestration | LangGraph             |
